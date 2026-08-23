@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "OnlyFotos",
+    "slug": "onlyfotos",
+    "version": "0.1.0",
+    "orientation": "default",
+    "scheme": "onlyfotos",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": false,
+      "appleTeamId": "GM6P45R4QX",
+      "bundleIdentifier": "com.kalyannath.onlyfotos",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "OnlyFotos needs full Photos access to display your Hidden album."
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-dev-client",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "17.0"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
