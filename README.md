@@ -40,7 +40,7 @@ This prints the iPhone connection URL and starts Metro in LAN mode. Enter the pr
 - Images and videos use PhotoKit `ph://` URLs.
 - Expo Image and Expo Video allow network access so iCloud-only originals download on demand.
 - The existing grid, paging, zoom, autoplay, Play All, and Shuffle All interactions are preserved.
-- The bottom navigation is a floating translucent pill with Library and Settings tabs.
+- The bottom navigation is a narrow vertical floating bubble docked to the left edge of the screen (Library and Settings tabs, icons only). Native UI dependency changes require rebuilding the development client.
 
 The former LAN server remains in `server/` as historical fallback code but is not imported or used by the native application.
 

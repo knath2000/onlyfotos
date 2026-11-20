@@ -92,4 +92,21 @@ DEVELOPER_DIR=/Volumes/WD/Applications/Xcode.app/Contents/Developer \
 
 ## Navigation UI
 
-The tab bar is a floating translucent pill with rounded corners and a subtle border/shadow. It provides Library and Settings tabs and replaces the previous opaque bottom bar. The implementation lives in `app/(tabs)/_layout.tsx`.
+The tab bar is a narrow vertical floating bubble docked to the left edge of the screen, modeled on the stock iOS Photos sidebar-style navigation: 54 pt wide, large corner radius, warm tinted glass (`rgba(125,105,96,0.32)`), `expo-blur` BlurView (intensity 42, dark tint), subtle white border and drop shadow, icons-only Library/Settings tabs stacked vertically with the active tab tinted `#2878ff`. The implementation lives in `app/(tabs)/_layout.tsx` as a custom tab bar passed via `<Tabs tabBar={(props) => <VerticalTabBubble {...props} />} />` using `BottomTabBarProps` from `@react-navigation/bottom-tabs`, with manual `tabPress` event emission. Tab icons use `expo-symbols` SymbolView; symbol names must be typed as `SFSymbol` (e.g. a `Record<string, SFSymbol>` map) or TypeScript rejects plain strings.
+
+A horizontal centered variant matching stock Photos' bottom bar was also built and reverted by user preference — the vertical left-edge bubble is the accepted design.
+
+Because `expo-blur` is native, rebuild the iPhone binary after changing or installing native dependencies; JavaScript-only changes can continue using Metro.
+
+## Device build workflow
+
+- `npx expo run:ios --device` requires an explicit device ID in non-interactive mode.
+- Expo only accepts the **hardware UDID** from `DEVELOPER_DIR=/Volumes/WD/Applications/Xcode.app/Contents/Developer xcrun xctrace list devices` (for this iPhone: `00008101-001A0CA01ED0001E`). The CoreDevice/devicectl identifier shown by other tools is rejected with "No device UDID or name matching".
+- Full device build/install command:
+
+```bash
+DEVELOPER_DIR=/Volumes/WD/Applications/Xcode.app/Contents/Developer \
+  npx expo run:ios --device 00008101-001A0CA01ED0001E
+```
+
+- If a native component renders as "unimplemented component viewmanager…" at runtime (e.g. `viewmanageradapterexpoblurview`), the pod was never installed into the binary: run `cd ios && DEVELOPER_DIR=/Volumes/WD/Applications/Xcode.app/Contents/Developer pod install`, then rebuild and reinstall. JS-only edits after that hot-reload through Metro without a rebuild.
